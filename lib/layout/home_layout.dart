@@ -39,7 +39,6 @@ import 'package:food_app/moduels/shop_screen.dart';
          unselectedItemColor: Colors.grey,
          selectedItemColor: KprimaryColor,
          type: BottomNavigationBarType.fixed,
-
        ),
 
      );
