@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: size.height * 0.005),
           Itemproduct('Food'),
           Container(
+
             height: size.height*.5,
             child: ListView.builder(
             itemCount: 10,
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
+
         ],
       ),
     );
