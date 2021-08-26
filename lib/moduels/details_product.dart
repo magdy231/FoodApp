@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/constant/constant.dart';
 
@@ -9,6 +10,7 @@ class DetailsProduct extends StatefulWidget {
 
 class _DetailsProductState extends State<DetailsProduct> {
   int _numPices = 0;
+  int groupValue = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -48,44 +50,94 @@ class _DetailsProductState extends State<DetailsProduct> {
               ),
               width: size.width,
               height: size.height * .55,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Particulars",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontSize: 30),
-                  ),
-                  SizedBox(height: size.height * .02),
-                  Text(
-                    'A drink (or beverage) is a liquid intended for human consumption. In addition to their basic function of satisfying thirst,',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
-                  ),
-                  SizedBox(height: size.height * .02),
-                  buildRowStars(),
-                  SizedBox(height: size.height * .02),
-                  Row(
-                    children: [
-                      buildContainerOption(size,
-                          text: '500ml', icon: Icons.coffee_rounded),
-                      buildContainerOption(size,
-                          text: 'less ice', icon: Icons.ac_unit),
-                      buildContainerOption(size,
-                          text: 'sugar', icon: Icons.add_business_outlined),
-                    ],
-                  ),
-                  buildContainerNumPices(size)
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Particulars",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontSize: 30),
+                    ),
+                    SizedBox(height: size.height * .02),
+                    Text(
+                      'A drink (or beverage) is a liquid intended for human consumption. In addition to their basic function of satisfying thirst,',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black),
+                    ),
+                    SizedBox(height: size.height * .02),
+                    buildRowStars(),
+                    SizedBox(height: size.height * .02),
+                    Row(
+                      children: [
+                        buildContainerOption(size,
+                            text: '500ml', icon: Icons.local_drink),
+                        buildContainerOption(size,
+                            text: 'less ice', icon: Icons.ac_unit),
+                        buildContainerOption(size,
+                            text: 'sugar', icon: Icons.add_business_outlined),
+                      ],
+                    ),
+                    buildContainerNumPices(size),
+                    //SizedBox(height: size.height,)
+                    buildRadioListTile('Small',200,0),
+                    buildRadioListTile('Medium',400,1),
+                    buildRadioListTile('Big',800,2),
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: (){},
+                          icon: Icon(Icons.add_shopping_cart_outlined),
+                          label: Text('Add To Cart'),
+                          style: TextButton.styleFrom(
+                            backgroundColor: KprimaryColor,
+                            padding: EdgeInsets.symmetric(horizontal: size.width*.25,vertical: size.width*.03),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
+
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 50,),
+                  ],
+                ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  RadioListTile<int> buildRadioListTile(String text,double price,int number) {
+    return RadioListTile(
+      value: number,
+      groupValue: groupValue,
+      onChanged: (value) {
+        setState(() {
+          groupValue = value;
+        });
+      },
+      title: Text(
+        '  ${text}',
+        style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: groupValue == number ? KprimaryColor : Colors.grey),
+      ),
+      subtitle: Text(
+        '  Price is ${price} Egp',
+        style: TextStyle(fontSize: 15),
+      ),
+      activeColor: KprimaryColor,
+      secondary: Icon(Icons.check_circle_outline,color: number==groupValue?KprimaryColor : Colors.grey,size: 30,),
     );
   }
 
