@@ -21,7 +21,7 @@ import 'package:food_app/moduels/shop_screen.dart';
    Widget build(BuildContext context) {
      Size size=MediaQuery.of(context).size;
      return Scaffold(
-       body: DetailsProduct(),//myScreens[currentIndex],
+       body: myScreens[currentIndex],
        bottomNavigationBar: BottomNavigationBar(
          currentIndex: currentIndex,
          onTap: (index){
@@ -31,8 +31,9 @@ import 'package:food_app/moduels/shop_screen.dart';
          },
          items: [
            BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: 'Home'),
-           BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined),label: 'Shop'),
            BottomNavigationBarItem(icon: Icon(Icons.add_shopping_cart_sharp),label: 'cart'),
+           BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profile'),
+
          ],
          unselectedItemColor: Colors.grey,
          selectedItemColor: KprimaryColor,

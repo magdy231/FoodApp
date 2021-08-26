@@ -1,8 +1,11 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app/constant/constant.dart';
 import 'package:food_app/model/product.dart';
+import 'package:food_app/moduels/details_product.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -57,10 +60,11 @@ class _HomeScreenState extends State<HomeScreen> {
   GestureDetector buildFoodItem(Size size,Product product) {
     return GestureDetector(
       onTap: (){
-        print('Food');
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsProduct(product: product,typeOfText: 'FOOD',)));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+        margin: EdgeInsets.symmetric(horizontal: size.width*0.05, vertical: 7),
+
         width: size.width,
 
         child: Row(
@@ -75,9 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.fill,
+                child: Hero(
+                  tag: '${product.ID}',
+
+                  child: Image.network(
+                    product.imageUrl,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
@@ -120,45 +128,54 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container buildDrinkItem(Size size, Product product) {
-    return Container(
-      margin: EdgeInsets.only(left: 15, top: 7, bottom: 7),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
-        children: [
-          Opacity(
-            opacity: 0.9,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                height: size.height * 0.25,
-                width: size.width * 0.35,
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.fill,
+  GestureDetector buildDrinkItem(Size size, Product product) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsProduct(product: product,typeOfText: 'Drink',)));
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 15, top: 7, bottom: 7),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Stack(
+          children: [
+            Opacity(
+              opacity: 0.9,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  height: size.height * 0.25,
+                  width: size.width * 0.35,
+                  child: Hero(
+                    tag: '${product.ID}',
+
+                    child: Image.network(
+                      product.imageUrl,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment(0,1),
-            child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(left: 5,bottom: 5),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight:Radius.circular(20) ),
+            Align(
+              alignment: Alignment(0,1),
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 5,bottom: 5),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.5),
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight:Radius.circular(20) ),
 
+                ),
+                width: size.width*0.35,
+                  height: size.height*0.06,
+
+                  child: Text(product.Name,style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold,color: Colors.white),),
               ),
-              width: size.width*0.35,
-                height: size.height*0.06,
-
-                child: Text(product.Name,style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold,color: Colors.white),),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

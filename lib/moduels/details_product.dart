@@ -2,8 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/constant/constant.dart';
+import 'package:food_app/model/addTocart.dart';
+import 'package:food_app/model/product.dart';
 
 class DetailsProduct extends StatefulWidget {
+  final Product product;
+  final String typeOfText;
+
+  const DetailsProduct({Key key, this.product, this.typeOfText})
+      : super(key: key);
+
   @override
   _DetailsProductState createState() => _DetailsProductState();
 }
@@ -11,112 +19,165 @@ class DetailsProduct extends StatefulWidget {
 class _DetailsProductState extends State<DetailsProduct> {
   int _numPices = 0;
   int groupValue = -1;
+  var ScaffoldKey = GlobalKey<ScaffoldState>();
+  bool Success=false;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width,
-      height: size.height,
-      child: Stack(
-        children: [
-          buildContainerHeaderImage(size),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: Colors.white,
+    return Scaffold(
+      body: Container(
+        width: size.width,
+        height: size.height,
+        child: Stack(
+          children: [
+            buildContainerHeaderImage(size),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: size.width * 0.1),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      print('dsgsdgs');
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            buildContainerGeniralInfo(size),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                padding: EdgeInsets.only(top: 30, left: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
                 ),
-              ],
-            ),
-          ),
-          buildContainerGeniralInfo(size),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              padding: EdgeInsets.only(top: 30, left: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
-              width: size.width,
-              height: size.height * .55,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Particulars",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          fontSize: 30),
-                    ),
-                    SizedBox(height: size.height * .02),
-                    Text(
-                      'A drink (or beverage) is a liquid intended for human consumption. In addition to their basic function of satisfying thirst,',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black),
-                    ),
-                    SizedBox(height: size.height * .02),
-                    buildRowStars(),
-                    SizedBox(height: size.height * .02),
-                    Row(
-                      children: [
-                        buildContainerOption(size,
-                            text: '500ml', icon: Icons.local_drink),
-                        buildContainerOption(size,
-                            text: 'less ice', icon: Icons.ac_unit),
-                        buildContainerOption(size,
-                            text: 'sugar', icon: Icons.add_business_outlined),
-                      ],
-                    ),
-                    buildContainerNumPices(size),
-                    //SizedBox(height: size.height,)
-                    buildRadioListTile('Small',200,0),
-                    buildRadioListTile('Medium',400,1),
-                    buildRadioListTile('Big',800,2),
+                width: size.width,
+                height: size.height * .55,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Particulars",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            fontSize: 30),
+                      ),
+                      SizedBox(height: size.height * .02),
+                      Text(
+                        widget.product.describtion,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                      SizedBox(height: size.height * .02),
+                      buildRowStars(),
+                      SizedBox(height: size.height * .02),
+                      Row(
+                        children: [
+                          buildContainerOption(size,
+                              text: '500ml', icon: Icons.local_drink),
+                          buildContainerOption(size,
+                              text: 'less ice', icon: Icons.ac_unit),
+                          buildContainerOption(size,
+                              text: 'sugar', icon: Icons.add_business_outlined),
+                        ],
+                      ),
+                      buildContainerNumPices(size),
+                      //SizedBox(height: size.height,)
+                      buildRadioListTile('Small', widget.product.smallPrice, 1),
+                      buildRadioListTile(
+                          'Medium', widget.product.mediumPrice, 2),
+                      buildRadioListTile('Big', widget.product.bigPrice, 3),
 
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: (){},
-                          icon: Icon(Icons.add_shopping_cart_outlined),
-                          label: Text('Add To Cart'),
-                          style: TextButton.styleFrom(
-                            backgroundColor: KprimaryColor,
-                            padding: EdgeInsets.symmetric(horizontal: size.width*.25,vertical: size.width*.03),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
+                              final SB = SnackBar(
+                                content: Text(
+                                  groupValue != -1
+                                      ? 'Add To Cart Successfully'
+                                      : 'Please Choose Size of product',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                backgroundColor: groupValue != -1
+                                    ? Colors.green
+                                    : Colors.red,
+                              );
 
+                              ScaffoldMessenger.of(context).showSnackBar(SB);
+                              double totalPrice;
+                              if(Success==false && groupValue!=-1) {
+                                if (groupValue == 1) {
+                                  totalPrice =
+                                      _numPices * widget.product.smallPrice;
+                                } else if (groupValue == 2) {
+                                  totalPrice =
+                                      _numPices * widget.product.mediumPrice;
+                                } else {
+                                  totalPrice =
+                                      _numPices * widget.product.bigPrice;
+                                }
+                                if (groupValue != -1) {
+                                  AddToCart ChooseProduct = AddToCart(
+                                    imageUrl: widget.product.imageUrl,
+                                    numberOfpices: _numPices,
+                                    Price: totalPrice,
+                                    name: widget.product.Name,
+                                  );
+                                  myCart.add(ChooseProduct);
+                                  print(myCart[0].name);
+                                }
+                              }
+                              if(groupValue!=-1){
+                                Success=true;
+                              }
+                            },
+                            icon: Icon(Icons.add_shopping_cart_outlined),
+                            label: Text('Add To Cart'),
+                            style: TextButton.styleFrom(
+                                backgroundColor: KprimaryColor,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: size.width * .25,
+                                    vertical: size.width * .03),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 50,),
-                  ],
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  RadioListTile<int> buildRadioListTile(String text,double price,int number) {
+  RadioListTile<int> buildRadioListTile(String text, double price, int number) {
     return RadioListTile(
       value: number,
       groupValue: groupValue,
@@ -133,11 +194,15 @@ class _DetailsProductState extends State<DetailsProduct> {
             color: groupValue == number ? KprimaryColor : Colors.grey),
       ),
       subtitle: Text(
-        '  Price is ${price} Egp',
+        '  Price is ${price} \$',
         style: TextStyle(fontSize: 15),
       ),
       activeColor: KprimaryColor,
-      secondary: Icon(Icons.check_circle_outline,color: number==groupValue?KprimaryColor : Colors.grey,size: 30,),
+      secondary: Icon(
+        Icons.check_circle_outline,
+        color: number == groupValue ? KprimaryColor : Colors.grey,
+        size: 30,
+      ),
     );
   }
 
@@ -263,23 +328,24 @@ class _DetailsProductState extends State<DetailsProduct> {
 
   Container buildContainerGeniralInfo(Size size) {
     return Container(
-      width: size.width * .6,
+      width: size.width * 1,
       height: size.height * .4,
+      //color: Colors.red,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: size.height * .09,
+            height: size.height * .07,
           ),
           Text(
-            'Ice Creme',
+            widget.product.Name,
             style: TextStyle(
                 fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           Text(
-            'Food',
+            widget.typeOfText,
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
           ),
@@ -287,7 +353,7 @@ class _DetailsProductState extends State<DetailsProduct> {
             height: size.height * .02,
           ),
           Text(
-            '200\$',
+            '${widget.product.mediumPrice} \$',
             style: TextStyle(
                 fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
           ),
@@ -306,7 +372,7 @@ class _DetailsProductState extends State<DetailsProduct> {
         ),
       ),
       width: size.width,
-      height: size.height * .5,
+      height: size.height * .53,
       child: ClipRRect(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
@@ -314,9 +380,12 @@ class _DetailsProductState extends State<DetailsProduct> {
         ),
         child: Opacity(
           opacity: .6,
-          child: Image.network(
-            'https://i.pinimg.com/originals/f7/f7/5c/f7f75c87226c5cd29c07e2ebdc7425b2.jpg',
-            fit: BoxFit.fill,
+          child: Hero(
+            tag: '${widget.product.ID}',
+            child: Image.network(
+              widget.product.imageUrl,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
       ),
