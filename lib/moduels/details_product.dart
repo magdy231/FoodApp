@@ -329,7 +329,7 @@ class _DetailsProductState extends State<DetailsProduct> {
   Container buildContainerGeniralInfo(Size size) {
     return Container(
       width: size.width * 1,
-      height: size.height * .4,
+      height: size.height * .5,
       //color: Colors.red,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       child: Column(

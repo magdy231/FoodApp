@@ -14,8 +14,8 @@ import 'package:food_app/moduels/shop_screen.dart';
    int currentIndex=0;
    List<Widget> myScreens=[
      HomeScreen(),
-     ShopScreen(),
      CartScreen(),
+     ShopScreen(),
    ];
    @override
    Widget build(BuildContext context) {
