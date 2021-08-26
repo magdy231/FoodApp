@@ -1,75 +1,112 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/constant/constant.dart';
+import 'package:food_app/model/addTocart.dart';
 
 class CartScreen extends StatefulWidget {
   @override
   _CartScreenState createState() => _CartScreenState();
 }
-
 class _CartScreenState extends State<CartScreen> {
+  bool isVisble=true;
+  double TotalPrice=0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    calculateTotalPrice();
+
+
+  }
+  void calculateTotalPrice(){
+  setState(() {
+    TotalPrice=0;
+    myCart.forEach((element) {
+      TotalPrice+=element.Price;
+    });
+  });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      padding:
-          EdgeInsets.symmetric(vertical: size.height * .05, horizontal: 20),
-      width: size.width,
-      height: size.height,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Shopping cart",
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "A total is 1 pieces",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
-            ),
-            SizedBox(
-              height: size.height * .03,
-            ),
-            Container(
-              height: size.height*.59,
-              child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (_, index) {
-                    return buildContainerCart(size);
-                  }),
-            ),
-            SizedBox(height: 5,),
-            Align(
-              alignment: Alignment.center,
-              child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: size.height*0.09),
+          Text(
+            "Shopping cart",
+            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: size.height*.01,
+          ),
+          Text(
+            "A total is ${myCart.length} pieces",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.grey),
+          ),
+          SizedBox(
+            height: size.height * .03,
+          ),
+          Container(
+            alignment: Alignment.center,
+
+            height: size.height*.6,
+
+            child: myCart.length==0? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              children: [
+                Icon(Icons.add_shopping_cart_outlined,size: 80,color: KprimaryColor,),
+                Text('No Item Choose',style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.grey),),
+              ],
+            ): ListView.builder(
+                itemCount: myCart.length,
+                itemBuilder: (_, index) {
+                  return buildContainerCart(myCart[index],size,isVisble);
+                }),
+          ),
+          SizedBox(height: size.height*0.02,),
+
+
+           Center(
+             child: Container(
+               padding: EdgeInsets.symmetric(horizontal: size.width*.001),
                 alignment: Alignment.center,
-                width: size.width -size.width*.3,
-                height: 55,
+                height: size.height*0.09,
+                width: size.width*.8,
                 decoration: BoxDecoration(
                   color: KprimaryColor,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(50),
                 ),
                 child: TextButton(
                   onPressed: () {},
                   child: Padding(
-                    padding:  EdgeInsets.all(8.0),
+                    padding:  EdgeInsets.all(15),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          'Total  20 EGY',
+                          '  Total ',
                           style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                        Text(
+                          '${TotalPrice} \$',
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600
                           ),
                         ),
                         Spacer(),
                         Text(
-                          'next',
+                          'Next',
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -81,80 +118,117 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+           ),
+
+        ],
       ),
     );
   }
 
-  Container buildContainerCart(Size size) {
-    return Container(
-      padding: EdgeInsets.only(top: 15),
-      width: size.width,
-      height: size.height * .18,
-      child: Row(
-        children: [
-          Container(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Image.network(
-                'https://thefoodcafe.com/wp-content/uploads/2018/03/Creamy-Spinach-Pasta-Salad-with-Chicken-3-700x1050.jpg',
-                fit: BoxFit.fill,
+  Visibility buildContainerCart(AddToCart product,Size size,bool isV) {
+    return Visibility(
+      visible: product.show,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10,right: 5),
+
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 10.0,
+             // offset: Offset(10,10)
+              
+            ),
+          ],
+
+        ),
+        padding: EdgeInsets.only(top: 0),
+        width: size.width,
+        height: size.height * .18,
+        child: Row(
+          children: [
+            Container(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              width: size.width * .25,
+              height: size.height * .18,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: size.width * 0.4,
+
+                    child: Text(
+                      product.name,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 7,),
+                  Text(
+                    '${product.numberOfpices}  ${product.size}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                      '${product.Price} \$',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: KprimaryColor),
+                  ),
+                ],
               ),
             ),
-            width: size.width * .25,
-            height: size.height * .18,
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ice Cream',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
+         
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                     setState(() {
+                       product.show=false;
+                       myCart.remove(product);
+                       calculateTotalPrice();
+
+
+
+                     });
+
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      size: 30,
+                      color: Colors.red,
+                    ),
                   ),
-                ),
-                Text(
-                  'Food',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                  Text(
+                    'Remove',
+                    style: TextStyle(color: Colors.red),
                   ),
-                ),
-                Spacer(),
-                Text(
-                  '200EGY',
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                      color: KprimaryColor),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.delete,
-                  size: 30,
-                  color: Colors.red,
-                ),
-              ),
-              Text(
-                'Remove',
-                style: TextStyle(color: Colors.red),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

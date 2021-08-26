@@ -22,7 +22,7 @@ class Product {
 }
 List<Product> myDrink=[
   Product(
-    Name: 'Lemons and Lemonade juice',
+    Name: 'Lemons and Lemonade ',
     describtion: 'Fresh Lemons and Lemonade juice ',
     imageUrl:
     'https://i.pinimg.com/originals/f7/f7/5c/f7f75c87226c5cd29c07e2ebdc7425b2.jpg',

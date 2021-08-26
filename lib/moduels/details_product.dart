@@ -125,16 +125,20 @@ class _DetailsProductState extends State<DetailsProduct> {
 
                               ScaffoldMessenger.of(context).showSnackBar(SB);
                               double totalPrice;
+                              String size;
                               if(Success==false && groupValue!=-1) {
                                 if (groupValue == 1) {
                                   totalPrice =
                                       _numPices * widget.product.smallPrice;
+                                  size='Small';
                                 } else if (groupValue == 2) {
                                   totalPrice =
                                       _numPices * widget.product.mediumPrice;
+                                  size='Medium';
                                 } else {
                                   totalPrice =
                                       _numPices * widget.product.bigPrice;
+                                  size='Big';
                                 }
                                 if (groupValue != -1) {
                                   AddToCart ChooseProduct = AddToCart(
@@ -142,6 +146,7 @@ class _DetailsProductState extends State<DetailsProduct> {
                                     numberOfpices: _numPices,
                                     Price: totalPrice,
                                     name: widget.product.Name,
+                                    size: size,
                                   );
                                   myCart.add(ChooseProduct);
                                   print(myCart[0].name);

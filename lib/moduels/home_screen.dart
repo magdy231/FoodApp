@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app/constant/constant.dart';
+import 'package:food_app/model/addTocart.dart';
 import 'package:food_app/model/product.dart';
 import 'package:food_app/moduels/details_product.dart';
 
@@ -234,12 +235,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Spacer(),
-        IconButton(
-            icon: Icon(
-              Icons.add_shopping_cart,
-              size: 30,
-            ),
-            onPressed: () {}),
+        Stack(
+          children: [
+            IconButton(
+                icon: Icon(
+                  Icons.add_shopping_cart,
+                  size: 30,
+                ),
+                onPressed: () {
+
+                }),
+              CircleAvatar(
+                radius: 10,
+                child: Text('${myCart.length}'),
+                backgroundColor: Colors.red,
+              ),
+          ],
+        ),
       ],
     );
   }
