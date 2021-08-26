@@ -116,27 +116,7 @@ List<Product> myDrink=[
 List<Product> myFood = [
 
 
-  Product(
-    Name: 'Creamy peri peri chicken pasta',
-    describtion:
-        'This easy, creamy peri-peri chicken pasta with spicy sauce is the kind of showstopper meal that will ...‏ ',
-    imageUrl:
-        'https://th.bing.com/th?q=Curly+Pasta&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.25&pid=InlineBlock&mkt=en-XA&adlt=strict&t=1&mw=247',
-    smallPrice: 55,
-    mediumPrice: 70,
-    bigPrice: 80,
-    ID: 10,
-  ),
-  Product(
-    Name: 'Best Tomato Chicken Pasta',
-    describtion: 'ROASTED CHICKEN AND TOMATO PASTA ',
-    imageUrl:
-        'https://i.pinimg.com/originals/a2/2b/57/a22b5795424b9e9b5cc020ae5baa3442.jpg',
-    smallPrice: 50,
-    mediumPrice: 70,
-    bigPrice: 90,
-    ID: 11,
-  ),
+
   Product(
     Name: 'Pasta Salad with Spinach',
     describtion: 'Creamy Spinach Pasta Salad with Chicken ',
@@ -254,4 +234,25 @@ List<Product> myFood = [
       mediumPrice: 95,
       bigPrice: 120,
       ID: 23),
+  Product(
+    Name: 'Creamy peri peri chicken pasta',
+    describtion:
+    'This easy, creamy peri-peri chicken pasta with spicy sauce is the kind of showstopper meal that will ...‏ ',
+    imageUrl:
+    'https://th.bing.com/th?q=Curly+Pasta&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.25&pid=InlineBlock&mkt=en-XA&adlt=strict&t=1&mw=247',
+    smallPrice: 55,
+    mediumPrice: 70,
+    bigPrice: 80,
+    ID: 10,
+  ),
+  Product(
+    Name: 'Best Tomato Chicken Pasta',
+    describtion: 'ROASTED CHICKEN AND TOMATO PASTA ',
+    imageUrl:
+    'https://i.pinimg.com/originals/a2/2b/57/a22b5795424b9e9b5cc020ae5baa3442.jpg',
+    smallPrice: 50,
+    mediumPrice: 90,
+    bigPrice: 90,
+    ID: 11,
+  ),
 ];

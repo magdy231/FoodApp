@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app/constant/constant.dart';
+import 'package:food_app/model/product.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -29,106 +30,134 @@ class _HomeScreenState extends State<HomeScreen> {
             height: size.height * 0.25,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: myDrink.length,
               itemBuilder: (_, index) {
-                return buildDrinkItem(size);
+                return buildDrinkItem(size, myDrink[index]);
               },
             ),
           ),
           SizedBox(height: size.height * 0.005),
           Itemproduct('Food'),
+          SizedBox(height: size.height * 0.005),
           Container(
-
-            height: size.height*.5,
+            height: size.height * .5,
+           // color: Colors.red,
             child: ListView.builder(
-            itemCount: 10,
-              itemBuilder: (_,index){
-              return buildFoodItem(size);
+              itemCount: myFood.length,
+              itemBuilder: (_, index) {
+                return buildFoodItem(size,myFood[index]);
               },
             ),
           ),
-
         ],
       ),
     );
   }
 
-  Container buildFoodItem(Size size) {
-    return Container(
+  GestureDetector buildFoodItem(Size size,Product product) {
+    return GestureDetector(
+      onTap: (){
+        print('Food');
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+        width: size.width,
 
-          margin: EdgeInsets.symmetric(horizontal: 20,vertical: 7),
-          width: size.width,
-          height: size.height * .13,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: size.width * .23,
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Image.asset(
-                  'assets/images/pngegg (9).png',
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: size.width * .23,
+              height: size.height*.1,
+              decoration: BoxDecoration(
+
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  product.imageUrl,
                   fit: BoxFit.fill,
                 ),
               ),
-              SizedBox(width: size.width*.06,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Ice cream',style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                    fontSize: 24,
-                  ),),
-                  Text('Sup title',style: TextStyle(
-                    fontSize: 18,
+            ),
+            SizedBox(
+              width: size.width * .06,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: size.width*.4,
+                  child: Text(
+                    product.Name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                SizedBox(height: size.height*.003,),
+                Text(
+                  'Food Product',
+                  style: TextStyle(
+                    fontSize: 15,
                     color: Colors.blueGrey,
-                  ),),
-                ],
-              ),
-              Spacer(),
-              Text("200 \$",style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w800
-              ),),
-            ],
-          ),
-        );
+                  ),
+                ),
+              ],
+            ),
+            Spacer(),
+            Text(
+              "${product.mediumPrice} EGP",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Container buildDrinkItem(Size size) {
+  Container buildDrinkItem(Size size, Product product) {
     return Container(
       margin: EdgeInsets.only(left: 15, top: 7, bottom: 7),
-      height: size.height * 0.025,
-      width: size.width * 0.35,
       decoration: BoxDecoration(
-        color: Colors.green,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
         children: [
-          Container(
-            width: size.width * .2,
-            height: size.height * .15,
-            child: Image.asset(
-              'assets/images/pngegg (9).png',
-              fit: BoxFit.fill,
+          Opacity(
+            opacity: 0.9,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                height: size.height * 0.25,
+                width: size.width * 0.35,
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
           ),
-          SizedBox(height: 5),
-          Text(
-            'Drink',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-              letterSpacing: 1,
+          Align(
+            alignment: Alignment(0,1),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: 5,bottom: 5),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight:Radius.circular(20) ),
+
+              ),
+              width: size.width*0.35,
+                height: size.height*0.06,
+
+                child: Text(product.Name,style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold,color: Colors.white),),
             ),
-          )
+          ),
         ],
       ),
     );
