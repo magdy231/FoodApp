@@ -17,7 +17,7 @@ class DetailsProduct extends StatefulWidget {
 }
 
 class _DetailsProductState extends State<DetailsProduct> {
-  int _numPices = 0;
+  int _numPices = 1;
   int groupValue = -1;
   var ScaffoldKey = GlobalKey<ScaffoldState>();
   bool Success=false;
@@ -151,6 +151,7 @@ class _DetailsProductState extends State<DetailsProduct> {
                                   myCart.add(ChooseProduct);
                                   print(myCart[0].name);
                                 }
+                                Navigator.pop(context);
                               }
                               if(groupValue!=-1){
                                 Success=true;
