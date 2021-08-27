@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/layout/home_layout.dart';
+import 'package:food_app/moduels/welcome_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeLayout(),
+      home:WelcomeScreen() ,
     );
   }
 }
