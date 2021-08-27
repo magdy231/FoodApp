@@ -7,6 +7,7 @@ import 'package:food_app/constant/constant.dart';
 import 'package:food_app/model/addTocart.dart';
 import 'package:food_app/model/product.dart';
 import 'package:food_app/moduels/details_product.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -83,9 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Hero(
                   tag: '${product.ID}',
 
-                  child: Image.network(
-                    product.imageUrl,
-                    fit: BoxFit.fill,
+                  child: CachedNetworkImage(
+                     imageUrl: product.imageUrl,
+                     placeholder: (context,url)=>Center(child: CircularProgressIndicator(),),
+                     errorWidget: (context,url,error)=>Icon(Icons.error,color: Colors.red,),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -151,9 +154,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Hero(
                     tag: '${product.ID}',
 
-                    child: Image.network(
-                      product.imageUrl,
-                      fit: BoxFit.fill,
+                    child: CachedNetworkImage(
+                      imageUrl: product.imageUrl,
+                      placeholder: (context,url)=>Center(child: CircularProgressIndicator(backgroundColor: KprimaryColor,),),
+                      errorWidget: (context,url,error)=>Icon(Icons.error,color: Colors.red,),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
