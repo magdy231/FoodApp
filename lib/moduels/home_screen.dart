@@ -160,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       errorWidget: (context,url,error)=>Icon(Icons.error,color: Colors.red,),
                       fit: BoxFit.cover,
                     ),
+
                   ),
                 ),
               ),
